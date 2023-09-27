@@ -1,2 +1,2 @@
 # vpn
-Public repo for setting up client VPN for the organization
+Public repo for setting up VPN client for the organization
