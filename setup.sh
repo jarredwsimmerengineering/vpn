@@ -8,7 +8,7 @@ declare -r +i VpnInstallFilePath="$VpnInstallPath/jarredwsimmerengineering.vpn"
 declare -r +i VpnDownloadUrl='https://d20adtppz83p9s.cloudfront.net/OSX/latest/AWS_VPN_Client.pkg'
 declare -r +i VpnCertificateDestinationPath="$VpnInstallFilePath/certificates"
 declare -r +i VpnCertificateDestinationFilePath="$VpnCertificateDestinationPath/client-config.ovpn"
-declare -r +i PingTestHost='ip-10-0-42-78.us-west-2.compute.internal'
+declare -r +i VpnTestHost='test.vpn.dev'
 
 
 printf "Running $0...\n**********\n"
@@ -57,12 +57,12 @@ read -s -n 1 -p "Press any key to continue: "
 printf "\n...continuing...\n"
 
 printf "Testing connection to VPN...\n"
-pingOutput=$(ping -v -s 56 -c 1 $PingTestHost | grep "\b0\.0\% packet loss" | wc -l)
-while [ $pingOutput -ne 1 ]; do
+hostOutput=$(host $VpnTestHost | grep ' has address ' | wc -l)
+while [ $hostOutput -ne 1 ]; do
 	printf "Failed to connect to the VPN\n"
 	read -s -n 1 -p "Press any key to retry: "
 	printf "\n...retrying...\n"
-	pingOutput=$(ping -v -s 56 -c 1 $PingTestHost | grep "\b0\.0\% packet loss" | wc -l)
+	hostOutput=$(host $VpnTestHost | grep ' has address ' | wc -l)
 done 
 printf "...finished\n"
 
